@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 用于指明类型处理器可以处理的JdbcType中的类型集合
  * @author Eduardo Macarron
  */
 @Documented

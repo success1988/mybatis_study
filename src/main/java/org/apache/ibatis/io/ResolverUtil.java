@@ -75,6 +75,7 @@ public class ResolverUtil<T> {
   }
 
   /**
+   * 内部类实现了内部接口
    * A Test that checks to see if each class is assignable to the provided class. Note
    * that this test will match the parent type itself if it is presented for matching.
    */

@@ -48,6 +48,8 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 
 /**
+ * 类型处理器注册表
+ *   我理解的是它相当于是策略模式中的Context类，持有了同一个接口的各种实现，以便根据运行情况动态地选择策略
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */
@@ -288,8 +290,11 @@ public final class TypeHandlerRegistry {
     }
   }
 
+  //挑选唯一的类型转换器
   private TypeHandler<?> pickSoleHandler(Map<JdbcType, TypeHandler<?>> jdbcHandlerMap) {
     TypeHandler<?> soleHandler = null;
+    //由于键可能存在多个，都指向同一个值，所以按照值进行遍历
+    //也可以把values放在一个Set集合中,判断set的长度是否为1
     for (TypeHandler<?> handler : jdbcHandlerMap.values()) {
       if (soleHandler == null) {
         soleHandler = handler;

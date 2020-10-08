@@ -33,6 +33,7 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 
 /**
+ * 类型别名注册器，维护的是别名与Class之间的关系
  * @author Clinton Begin
  */
 public class TypeAliasRegistry {
@@ -108,6 +109,7 @@ public class TypeAliasRegistry {
         return null;
       }
       // issue #748
+      //键全部采用小写
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
       //若别名注册表中存在，则直接取用
@@ -127,7 +129,7 @@ public class TypeAliasRegistry {
   public void registerAliases(String packageName) {
     registerAliases(packageName, Object.class);
   }
-
+  //
   public void registerAliases(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
@@ -135,6 +137,7 @@ public class TypeAliasRegistry {
     for (Class<?> type : typeSet) {
       // Ignore inner classes and interfaces (including package-info.java)
       // Skip also inner classes. See issue #6
+      //忽略匿名内部类、接口、成员类
       if (!type.isAnonymousClass() && !type.isInterface() && !type.isMemberClass()) {
         registerAlias(type);
       }
@@ -142,14 +145,17 @@ public class TypeAliasRegistry {
   }
 
   public void registerAlias(Class<?> type) {
+    //默认使用类的简单名称
     String alias = type.getSimpleName();
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
     if (aliasAnnotation != null) {
+      //若使用了@Alias注解，则用@Alias注解指定的别名
       alias = aliasAnnotation.value();
     }
     registerAlias(alias, type);
   }
 
+  //注册别名的核心方法，即往typeAliases这个map里存放键值对，键为别名，值为Class
   public void registerAlias(String alias, Class<?> value) {
     if (alias == null) {
       throw new TypeException("The parameter alias cannot be null");
