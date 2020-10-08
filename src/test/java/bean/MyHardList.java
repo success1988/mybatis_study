@@ -12,6 +12,7 @@ import java.util.*;
  * @Version
  */
 public class MyHardList implements List<Map<String,Address>> {
+
     @Override
     public int size() {
         return 0;

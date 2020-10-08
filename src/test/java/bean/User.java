@@ -7,6 +7,7 @@ package bean;
  * @Description
  * @Version
  */
+
 public class User {
 
     private String name;

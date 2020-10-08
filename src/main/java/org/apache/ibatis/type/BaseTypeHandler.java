@@ -24,6 +24,7 @@ import org.apache.ibatis.executor.result.ResultMapException;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * 类型转换器的基类，起到模板的作用
  * The base {@link TypeHandler} for references a generic type.
  * <p>
  * Important: Since 3.5.0, This class never call the {@link ResultSet#wasNull()} and
@@ -51,6 +52,9 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
     this.configuration = c;
   }
 
+  //设置参数
+  //PreparedStatement表示预编译的 SQL 语句的对象
+  //PreparedStatement继承了Statement，PreparedStatement接口添加了处理输入参数的方法
   @Override
   public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
     if (parameter == null) {
@@ -66,6 +70,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
       }
     } else {
       try {
+        //对于非空的参数设置，交由子类实现
         setNonNullParameter(ps, i, parameter, jdbcType);
       } catch (Exception e) {
         throw new TypeException("Error setting non null for parameter #" + i + " with JdbcType " + jdbcType + " . "
@@ -93,6 +98,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
     }
   }
 
+  //CallableStatement继承自prepareStatement，实现了存储过程函数调用的方法以及对于输出的处理
   @Override
   public T getResult(CallableStatement cs, int columnIndex) throws SQLException {
     try {
@@ -105,6 +111,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   public abstract void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException;
 
   /**
+   * useColumnLabel 就是使用列标签（别名）代替列名
    * @param columnName Colunm name, when configuration <code>useColumnLabel</code> is <code>false</code>
    */
   public abstract T getNullableResult(ResultSet rs, String columnName) throws SQLException;

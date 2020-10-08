@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * 简单类型注册表
+ * 将常用类型存放到set集合中
  * @author Clinton Begin
  */
 public class SimpleTypeRegistry {

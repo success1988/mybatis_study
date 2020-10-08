@@ -34,9 +34,12 @@ public abstract class TypeReference<T> {
   }
 
   Type getSuperclassTypeParameter(Class<?> clazz) {
+    //通过给定参数clazz的getGenericSuperclass()方法来获取该类类型的上一级类型（直接超类，父类，即参数类类型继承的类的类型）并带有参数类型，即带泛型。
+    // 如果要获取不带泛型的父类可使用getSuperclass()方法
     Type genericSuperclass = clazz.getGenericSuperclass();
     if (genericSuperclass instanceof Class) {
       // try to climb up the hierarchy until meet something useful
+      //尝试爬树，直到遇到一些有用的事情（注释挺形象，有意思！）
       if (TypeReference.class != genericSuperclass) {
         return getSuperclassTypeParameter(clazz.getSuperclass());
       }

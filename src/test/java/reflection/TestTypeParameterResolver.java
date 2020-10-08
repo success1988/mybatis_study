@@ -1,5 +1,6 @@
 package reflection;
 
+import bean.MyArrayList;
 import bean.MyHardList;
 import bean.MyList;
 import bean.SuperStar;
@@ -9,6 +10,7 @@ import org.apache.ibatis.reflection.TypeParameterResolver;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -27,10 +29,11 @@ public class TestTypeParameterResolver {
         //testReturnType2();
 
         //解析入参的泛型
-       // testParamType();
+        //testParamType();
+        testParamType2();
 
         //解析属性的泛型
-        testFieldType();
+        //testFieldType();
 
     }
 
@@ -54,6 +57,18 @@ public class TestTypeParameterResolver {
         System.out.println(ArrayUtil.toString(paramTypes));
     }
 
+
+    //addAll
+    private static void testParamType2() throws NoSuchMethodException {
+        Class<MyArrayList> myArrayListClazz = MyArrayList.class;
+        Method addAllMethod = myArrayListClazz.getDeclaredMethod("addAll",Collection.class);
+
+        Type[] paramTypes = TypeParameterResolver.resolveParamTypes(addAllMethod, myArrayListClazz);
+
+        System.out.println(Arrays.toString(paramTypes));
+    }
+
+
     private static void testReturnType() throws NoSuchMethodException {
         //subList
         Class<MyList> myListclazz = MyList.class;
@@ -74,6 +89,7 @@ public class TestTypeParameterResolver {
         //ParameterizedTypeImpl [rawType=interface java.util.List, ownerType=null, actualTypeArguments=[class bean.User]]
         System.out.println(returnType);
     }
+
 }
 
 

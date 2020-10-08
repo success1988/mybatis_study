@@ -26,9 +26,14 @@ import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 
 /**
- * 类型参数（泛型参数）解析器
+ * 泛型解析器
  * 因为所谓泛型就是类型参数化
  *   可以用于解析返回值、入参和属性的泛型类型
+ *
+ * 返回值、入参、属性的类型 只可能有四种情况：Class类型、泛型变量（TypeVariable）、参数化类型（ParameterizedType）、泛型列表(GenericArrayType)
+ *       所以有这样的说法：说WildcardType并不属于Java-Type中的一种，当然也有人认为WildcardType继承了Type接口，因而属于Java-Type中的一种
+ *
+ * 能放在<>里边的类型也只有四种情况：Class类型、泛型变量（TypeVariable）、参数化类型（ParameterizedType）、通配符类型(WildcardType)
  *
  * 注意：在sun.reflect.generics.reflectiveObjects包中已经存在
  * ParameterizedTypeImpl、TypeVariableImpl、WildcardTypeImpl
@@ -248,7 +253,7 @@ public class TypeParameterResolver {
     private Class<?> rawType;
     /**
      * 泛型所在主类的类型，一般情况下这个字段都是null
-     * Type getOwnerType()返回 Type 对象，表示此类型是其成员之一的类型。例如，如果此类型为 O<T>.I<S>，则返回 O<T> 的表示形式。
+     * Type getOwnerType()返回 Type 对象，表示此类型是其成员之一的类型。例如，如果此类型为Map.Entry，则返回 Map的表示形式。
      * 如果此类型为顶层类型，则返回 null。
      */
     private Type ownerType;

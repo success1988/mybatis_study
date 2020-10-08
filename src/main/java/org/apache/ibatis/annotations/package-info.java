@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * MyBatis最常用的注解为@Param,开发时一般采用xml方式
  * Contains all the annotation that are used in mapper interfaces
  */
 package org.apache.ibatis.annotations;

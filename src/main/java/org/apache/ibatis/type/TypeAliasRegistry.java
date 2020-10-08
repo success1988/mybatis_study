@@ -39,7 +39,8 @@ public class TypeAliasRegistry {
 
   private final Map<String, Class<?>> typeAliases = new HashMap<>();
 
-  public TypeAliasRegistry() {
+  public TypeAliasRegistry()
+  {
     registerAlias("string", String.class);
 
     registerAlias("byte", Byte.class);
@@ -99,7 +100,6 @@ public class TypeAliasRegistry {
 
     registerAlias("ResultSet", ResultSet.class);
   }
-
   @SuppressWarnings("unchecked")
   // throws class cast exception as well if types cannot be assigned
   public <T> Class<T> resolveAlias(String string) {
@@ -110,9 +110,12 @@ public class TypeAliasRegistry {
       // issue #748
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
+      //若别名注册表中存在，则直接取用
       if (typeAliases.containsKey(key)) {
         value = (Class<T>) typeAliases.get(key);
       } else {
+        //若别名注册表中不存在，则为完整类路径，进而加载该类
+        //使用多个类记载器轮番进行类的加载
         value = (Class<T>) Resources.classForName(string);
       }
       return value;

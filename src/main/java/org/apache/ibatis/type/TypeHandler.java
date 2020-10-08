@@ -21,6 +21,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * 类型处理器
+ * 作为持久层框架首先想到的问题就是如何将用户数据存到数据库中时之间的类型映射，就是 javaType -> jdbcType或者 jdbcType -> javaType，
+ * (在做更新操作时，需要将javaType转换为jdbcType, 在做查询操作时，需要将jdbcType转换为javaType)
+ * 这个过程就需要用到typeHandler
  * @author Clinton Begin
  */
 public interface TypeHandler<T> {
