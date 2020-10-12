@@ -31,6 +31,7 @@ public class Log4j2Impl implements Log {
     Logger logger = LogManager.getLogger(clazz);
 
     if (logger instanceof AbstractLogger) {
+      //是org.apache.logging.log4j.Logger的装饰器
       log = new Log4j2AbstractLoggerImpl((AbstractLogger) logger);
     } else {
       log = new Log4j2LoggerImpl(logger);
