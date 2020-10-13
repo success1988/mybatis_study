@@ -1,5 +1,6 @@
 package logging;
 
+import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
 /**
@@ -12,7 +13,8 @@ import org.apache.ibatis.logging.LogFactory;
 public class TestLog {
 
     public static void main(String[] args) {
-        LogFactory.getLog()
+        Log log = LogFactory.getLog(TestLog.class);
+        log.error("发生异常了");
 
     }
 }

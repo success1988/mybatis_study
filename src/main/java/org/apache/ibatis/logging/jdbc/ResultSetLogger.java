@@ -31,7 +31,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * ResultSet proxy to add logging.
- *
+ * 结果集日志增强器,主要用于打印结果集的总记录数
  * @author Clinton Begin
  * @author Eduardo Macarron
  *

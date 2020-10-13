@@ -33,6 +33,8 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.reflection.ArrayUtil;
 
 /**
+ * 所有日志增强器的抽象父类,用于记录JDBC那些需要增强的方法,并保存运行期间的SQL参数信息
+ * 每个connection对象、ResultSet对象、PreparedStatement对象都对应有相互独立的该对象
  * Base class for proxies to do logging.
  *
  * @author Clinton Begin

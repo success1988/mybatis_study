@@ -18,6 +18,7 @@ package org.apache.ibatis.logging;
 import java.lang.reflect.Constructor;
 
 /**
+ * 日志工厂,通过getLog()方法获取日志实现类
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
@@ -36,6 +37,8 @@ public final class LogFactory {
     tryImplementation(LogFactory::useLog4J2Logging);
     tryImplementation(LogFactory::useLog4JLogging);
     tryImplementation(LogFactory::useJdkLogging);
+    //在空对象模式（Null Object Pattern）中，一个空对象取代 NULL 对象实例的检查。Null 对象不是检查空值，而是反应一个不做任何动作的关系。
+    // 这样的 Null 对象也可以在数据不可用的时候提供默认的行为。客户端可以减少很多判空操作
     tryImplementation(LogFactory::useNoLogging);
   }
 
@@ -87,12 +90,15 @@ public final class LogFactory {
     setImplementation(org.apache.ibatis.logging.nologging.NoLoggingImpl.class);
   }
 
+  /*
+  若想要在一组相似的方法调用前加上统一的判断逻辑，jdk8这种方法引用的写法是一种不错的选择
+   */
   private static void tryImplementation(Runnable runnable) {
     if (logConstructor == null) {
       try {
         runnable.run();
       } catch (Throwable t) {
-        // ignore
+        // ignore 前仆后继，又有空对象保底，所以这里进行了忽略
       }
     }
   }

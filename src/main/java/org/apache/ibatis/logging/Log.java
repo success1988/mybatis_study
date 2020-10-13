@@ -16,6 +16,7 @@
 package org.apache.ibatis.logging;
 
 /**
+ *MyBatis日志接口定义,取主流日志框架所支持的级别的交集
  * @author Clinton Begin
  */
 public interface Log {

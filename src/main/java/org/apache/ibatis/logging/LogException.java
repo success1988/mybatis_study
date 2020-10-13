@@ -18,6 +18,7 @@ package org.apache.ibatis.logging;
 import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
+ * 日志异常（ps:继承的异常都过时了。。）
  * @author Clinton Begin
  */
 public class LogException extends PersistenceException {

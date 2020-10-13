@@ -14,6 +14,10 @@
  *    limitations under the License.
  */
 /**
+ * 可以为JDBC接口记录日志的代理
+ * 日志功能的优雅嵌入：MyBatis有个核心的组件Executor，主要的处理逻辑都是在Executor中实现的，日志的打印也是在这里，
+ * 这里获取了ConnectionLogger后，后续的PreparedStatement、ResultSet也就会具备日志打印的功能了
+ * @see org.apache.ibatis.executor.BaseExecutor#getConnection(org.apache.ibatis.logging.Log) 
  * Logging proxies that logs any JDBC statement.
  */
 package org.apache.ibatis.logging.jdbc;

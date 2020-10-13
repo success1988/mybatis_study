@@ -27,7 +27,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * Connection proxy to add logging.
- *
+ *数据库连接的日志增强器,打印PreparedStatement信息,并通过动态代理方式,创建具有打印日志功能的PreparedStatement、Statement等
  * @author Clinton Begin
  * @author Eduardo Macarron
  *
@@ -45,6 +45,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
   public Object invoke(Object proxy, Method method, Object[] params)
       throws Throwable {
     try {
+      //如果调用的方法是定义在Object类中的话，那就不进行日志增强
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, params);
       }

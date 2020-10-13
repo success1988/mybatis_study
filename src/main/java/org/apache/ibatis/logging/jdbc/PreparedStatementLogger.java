@@ -27,7 +27,10 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * PreparedStatement proxy to add logging.
- *
+ * PreparedStatement日志增强器,主要功能包括
+ * 打印PreparedStatement中的动态参数信息。
+ * 拦截setXXX()方法,记录封装的参数。
+ * 创建ResultSetLogger增强器,使得对于结果集的操作具备日志打印的功能。
  * @author Clinton Begin
  * @author Eduardo Macarron
  *
