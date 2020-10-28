@@ -81,22 +81,7 @@
         <developerConnection>scm:git:ssh://git@github.com/mybatis/mybatis-3.git</developerConnection>
         <tag>mybatis-3.5.2</tag>
     </scm>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
 
-                    <compilerArgs>
-                        <arg>-parameters</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <issueManagement>
         <system>GitHub Issue Management</system>
         <url>https://github.com/mybatis/mybatis-3/issues</url>
@@ -268,5 +253,33 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <!--参考:https://blog.csdn.net/hhj13978064496/article/details/89395020-->
+        <!--单元测试时引用src/main/resources下的资源文件 如何test下面有同类型的文件,则以test的为准-->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/main/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
