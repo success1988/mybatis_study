@@ -2,12 +2,12 @@
 <members>
     <user type="student">
         <id>1</id>
-        <name>易哥</name>
-        <shcool>Sunny School</shcool>
+        <name>success</name>
+        <shcool>Peking University</shcool>
     </user>
     <user type="student">
         <id>2</id>
-        <name>莉莉</name>
-        <shcool>Garden School</shcool>
+        <name>xiaolin</name>
+        <shcool>Tsinghua University</shcool>
     </user>
 </members>
