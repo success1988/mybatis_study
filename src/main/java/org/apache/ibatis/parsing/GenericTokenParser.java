@@ -35,7 +35,7 @@ public class GenericTokenParser {
     if (text == null || text.isEmpty()) {
       return "";
     }
-    // search open token
+    // search open token 找开头
     int start = text.indexOf(openToken);
     if (start == -1) {
       return text;
@@ -43,6 +43,8 @@ public class GenericTokenParser {
     char[] src = text.toCharArray();
     int offset = 0;
     final StringBuilder builder = new StringBuilder();
+
+    //开头（如${）和结尾（如}）之间的部分，称之为表达式
     StringBuilder expression = null;
     while (start > -1) {
       if (start > 0 && src[start - 1] == '\\') {

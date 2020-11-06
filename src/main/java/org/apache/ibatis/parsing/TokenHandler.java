@@ -16,6 +16,7 @@
 package org.apache.ibatis.parsing;
 
 /**
+ * 标记处理接口，具体的处理操作取决于它的实现方法
  * @author Clinton Begin
  */
 public interface TokenHandler {
