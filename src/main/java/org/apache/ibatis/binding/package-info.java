@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 绑定包
  * Bings mapper interfaces with mapped statements
  */
 package org.apache.ibatis.binding;

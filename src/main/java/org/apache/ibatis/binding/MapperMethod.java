@@ -39,14 +39,16 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 /**
+ * 实现了数据库操作的方法化
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Lasse Voss
  * @author Kazuki Shimizu
  */
 public class MapperMethod {
-
+  //
   private final SqlCommand command;
+  //方法签名
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -218,7 +220,10 @@ public class MapperMethod {
 
   public static class SqlCommand {
 
+    //sql语句的名称：  namespace + id
     private final String name;
+    //sql类型：增、删、改、查、清缓存和未知
+    //       UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH;
     private final SqlCommandType type;
 
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
@@ -272,17 +277,32 @@ public class MapperMethod {
     }
   }
 
+  /**
+   * Mapper方法的方法签名
+   */
   public static class MethodSignature {
 
+    //是否返回集合
     private final boolean returnsMany;
+    //是否返回Map
     private final boolean returnsMap;
+    //是否为空
     private final boolean returnsVoid;
+    //是否为cursor类型(用于存储过程的调用)
     private final boolean returnsCursor;
+    // 是否返回Optional类型
     private final boolean returnsOptional;
+    // 方法的返回类型
     private final Class<?> returnType;
+    // 如果该方法返回Map,则这里记录所有map的key
     private final String mapKey;
+
+    // resultHandler参数的位置
     private final Integer resultHandlerIndex;
+
+    //
     private final Integer rowBoundsIndex;
+    // 参数名称解析器
     private final ParamNameResolver paramNameResolver;
 
     public MethodSignature(Configuration configuration, Class<?> mapperInterface, Method method) {
