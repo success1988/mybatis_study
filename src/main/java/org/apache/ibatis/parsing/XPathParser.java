@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- *
+ * 对XPath进行了包装和增强
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */

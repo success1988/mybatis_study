@@ -27,6 +27,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
+ * 具有自解析功能的节点
  * @author Clinton Begin
  */
 public class XNode {

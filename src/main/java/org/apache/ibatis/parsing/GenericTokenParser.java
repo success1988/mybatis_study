@@ -17,6 +17,7 @@ package org.apache.ibatis.parsing;
 
 /**
  * 通用标记解析器
+ * 不仅可以用来解析xml配置文件（将property节点的属性值应用于下文），也可以用来解析sql语句中的占位符（#{}、${}）
  * @author Clinton Begin
  */
 public class GenericTokenParser {
@@ -77,6 +78,7 @@ public class GenericTokenParser {
           builder.append(src, start, src.length - start);
           offset = src.length;
         } else {
+          //将表达式部分由TokenHandler替换成具体的值
           builder.append(handler.handleToken(expression.toString()));
           offset = end + closeToken.length();
         }

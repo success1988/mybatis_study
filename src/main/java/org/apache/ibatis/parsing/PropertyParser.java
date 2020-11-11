@@ -58,7 +58,9 @@ public class PropertyParser {
 
   private static class VariableTokenHandler implements TokenHandler {
     private final Properties variables;
+    //是否允许使用默认值
     private final boolean enableDefaultValue;
+    //用于key和默认值之间的分隔符，比如   name:张三，如果取不到name对应的值，就用张三赋值
     private final String defaultValueSeparator;
 
     private VariableTokenHandler(Properties variables) {
@@ -79,7 +81,9 @@ public class PropertyParser {
           final int separatorIndex = content.indexOf(defaultValueSeparator);
           String defaultValue = null;
           if (separatorIndex >= 0) {
+            //分隔符以前的是  key
             key = content.substring(0, separatorIndex);
+            //分隔符以后的是  默认值
             defaultValue = content.substring(separatorIndex + defaultValueSeparator.length());
           }
           if (defaultValue != null) {
