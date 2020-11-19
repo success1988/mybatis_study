@@ -23,7 +23,7 @@ public class TestGenericTokenParser {
         Properties prop = new Properties();
         prop.load(new InputStreamReader(inputStream, "UTF-8"));
 
-        String result = PropertyParser.parse("I hava a bank card.It is of ${bankCode}.The card no is ${bankCardNo}", prop);
+        String result = PropertyParser.parse("I hava a bank card.It is of ${bankCode}.The card no is ${bankCardNo}.My name is ${name:张三}.", prop);
         System.out.println(result);
     }
 }
