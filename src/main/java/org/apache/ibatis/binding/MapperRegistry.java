@@ -27,13 +27,21 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
 /**
+ * Mapper注册表
+ *   缓存了本应用中所有的Mapper接口与对应的Mapper代理工厂之间的映射关系
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Lasse Voss
  */
 public class MapperRegistry {
 
+  /**
+   * 代表了所有MyBatis相关的所有配置信息
+   */
   private final Configuration config;
+  /**
+   * Mapper接口与对应的Mapper代理工厂之间的映射关系
+   */
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
