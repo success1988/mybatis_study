@@ -23,10 +23,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.ibatis.session.SqlSession;
 
 /**
+ * Mapper代理类工厂，用于为某个Mapper接口生成代理类
+ *  存了Mapper接口的Class对象，提供了newInstance静态方法
  * @author Lasse Voss
  */
 public class MapperProxyFactory<T> {
 
+  /**
+   * 表示要为哪个Mapper接口生成代理类
+   */
   private final Class<T> mapperInterface;
   private final Map<Method, MapperMethod> methodCache = new ConcurrentHashMap<>();
 

@@ -26,7 +26,8 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- *
+ * 执行处理器
+ *   提供了动态执行增强逻辑
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
@@ -37,7 +38,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
 
   private final Class<T> mapperInterface;
   /**
-   * 方法 与 sql方法化后的对象 之间的映射关系
+   * 方法 与 sql方法化后的对象 之间的映射关系,表示当前Mapper接口的方法缓存（TODO: 何时往缓存里存数据呢？每次执行时）
    */
   private final Map<Method, MapperMethod> methodCache;
 
@@ -47,9 +48,18 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     this.methodCache = methodCache;
   }
 
+  /**
+   * 拦截Mapper的每个方法，将其转换为MapperMethod对象的execute方法
+   * @param proxy
+   * @param method
+   * @param args
+   * @return
+   * @throws Throwable
+   */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
+      //如果执行的是Object类中定义的方法  或 Mapper接口的默认方法
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
       } else if (method.isDefault()) {
@@ -58,11 +68,18 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
+    //如果存在，则直接取用；如果不存在， 则创建新对象， 并缓存起来
     final MapperMethod mapperMethod = cachedMapperMethod(method);
     return mapperMethod.execute(sqlSession, args);
   }
 
   private MapperMethod cachedMapperMethod(Method method) {
+    //java8之前。从map中根据key获取value操作可能会有下面的操作
+    /*Object key = map.get("key");
+    if (key == null) {
+      key = new Object();
+      map.put("key", key);
+    }*/
     return methodCache.computeIfAbsent(method, k -> new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));
   }
 

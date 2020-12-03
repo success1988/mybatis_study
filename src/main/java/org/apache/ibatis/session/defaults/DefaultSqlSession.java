@@ -316,9 +316,21 @@ public class DefaultSqlSession implements SqlSession {
     return (!autoCommit && dirty) || force;
   }
 
+  /**
+   * 参考博文：https://blog.csdn.net/zzhongcy/article/details/102659104
+   * 在使用foreach的时候最关键的也是最容易出错的就是collection属性，该属性是必须指定的，但是在不同情况 下，该属性的值是不一样的，主要有一下3种情况：
+   * 1. 如果传入的是单参数且参数类型是一个List的时候，collection属性值为list
+   * 2. 如果传入的是单参数且参数类型是一个array数组的时候，collection的属性值为array
+   * 3. 如果传入的是Param修饰(@Param("ids")List<String>  ids)的时候，collection的属性值为ids
+   * 4. 如果传入的参数是多个的时候，我们就需要把它们封装成一个Map了，当然单参数也可
+   * @param object
+   * @return
+   */
   private Object wrapCollection(final Object object) {
     if (object instanceof Collection) {
       StrictMap<Object> map = new StrictMap<>();
+      //根据以下这行代码可以推测：
+      // 如果单参数是Set集合，那么可以在foreach的时候为collection属性指定为collection
       map.put("collection", object);
       if (object instanceof List) {
         map.put("list", object);
@@ -338,6 +350,7 @@ public class DefaultSqlSession implements SqlSession {
 
     @Override
     public V get(Object key) {
+      //与HashMap的区别在于，如果键不存在，则抛异常
       if (!super.containsKey(key)) {
         throw new BindingException("Parameter '" + key + "' not found. Available parameters are " + this.keySet());
       }

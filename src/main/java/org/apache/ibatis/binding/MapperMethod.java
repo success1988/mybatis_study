@@ -56,6 +56,12 @@ public class MapperMethod {
     this.method = new MethodSignature(config, mapperInterface, method);
   }
 
+  /**
+   * 执行方法：把sql节点转换为方法去执行
+   * @param sqlSession
+   * @param args
+   * @return
+   */
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
     switch (command.getType()) {
@@ -73,6 +79,7 @@ public class MapperMethod {
         Object param = method.convertArgsToSqlCommandParam(args);
         result = rowCountResult(sqlSession.delete(command.getName(), param));
         break;
+
       }
       case SELECT:
         if (method.returnsVoid() && method.hasResultHandler()) {
@@ -256,6 +263,7 @@ public class MapperMethod {
       return type;
     }
 
+    //根据命名空间+方法名(也是sql节点的id)来获取sql节点
     private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName,
         Class<?> declaringClass, Configuration configuration) {
       String statementId = mapperInterface.getName() + "." + methodName;
@@ -264,6 +272,7 @@ public class MapperMethod {
       } else if (mapperInterface.equals(declaringClass)) {
         return null;
       }
+      //逐级查找
       for (Class<?> superInterface : mapperInterface.getInterfaces()) {
         if (declaringClass.isAssignableFrom(superInterface)) {
           MappedStatement ms = resolveMappedStatement(superInterface, methodName,
@@ -325,6 +334,8 @@ public class MapperMethod {
       this.paramNameResolver = new ParamNameResolver(configuration, method);
     }
 
+    //调用反射包中的参数名称解析器来实现的，把参数数组转换为sql指令参数（整合了@Param的使用）
+    //convertXXXtoXXX 也可以借鉴一下这个命名方式
     public Object convertArgsToSqlCommandParam(Object[] args) {
       return paramNameResolver.getNamedParams(args);
     }

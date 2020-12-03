@@ -72,10 +72,13 @@ public class MapperRegistry {
       }
       boolean loadCompleted = false;
       try {
+        //往knownMappers添加各个Mapper接口与其对应的代理类之间的映射关系
+        // （这个映射关系是间接的，MapperProxyFactory对象确定了MapperProxy对象，从而确定了代理对象）
         knownMappers.put(type, new MapperProxyFactory<>(type));
         // It's important that the type is added before the parser is run
         // otherwise the binding may automatically be attempted by the
         // mapper parser. If the type is already known, it won't try.
+        //这两行代码的含义  有待后续理解 TODO
         MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
         parser.parse();
         loadCompleted = true;
