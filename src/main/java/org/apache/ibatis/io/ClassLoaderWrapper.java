@@ -20,7 +20,7 @@ import java.net.URL;
 
 /**
  * A class to wrap access to multiple class loaders making them work as one
- *
+ * 对类加载器进行了封装，确定了类加载器的使用顺序，并提供了加载类文件以及其他资源文件的功能
  * @author Clinton Begin
  */
 public class ClassLoaderWrapper {
@@ -203,11 +203,11 @@ public class ClassLoaderWrapper {
 
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {
     return new ClassLoader[]{
-        classLoader,
-        defaultClassLoader,
-        Thread.currentThread().getContextClassLoader(),
-        getClass().getClassLoader(),
-        systemClassLoader};
+        classLoader,//参数中指定的类加载器
+        defaultClassLoader,//系统默认的类加载器
+        Thread.currentThread().getContextClassLoader(),//当前线程绑定的类加载器
+        getClass().getClassLoader(), //加载当前类所使用的类加载器
+        systemClassLoader};//系统类加载器（应用类加载器）
   }
 
 }

@@ -52,6 +52,7 @@ public abstract class VFS {
       impls.addAll(USER_IMPLEMENTATIONS);
       impls.addAll(Arrays.asList((Class<? extends VFS>[]) IMPLEMENTATIONS));
 
+      //遍历impls集合，依次实例化 VFS 对象并检测 VFS 对象是否有效，一旦得到有效的 VFS 对象，则结束循环
       // Try each implementation class until a valid one is found
       VFS vfs = null;
       for (int i = 0; vfs == null || !vfs.isValid(); i++) {

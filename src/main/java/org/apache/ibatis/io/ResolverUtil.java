@@ -90,6 +90,11 @@ public class ResolverUtil<T> {
     /** Returns true if type is assignable to the parent type supplied in the constructor. */
     @Override
     public boolean matches(Class<?> type) {
+      /**
+       * isAssignableFrom 用来判断当前Class的辈分是否大于等于参数中的Class
+       *  Determines if the class or interface represented by this Class object is either the same as,
+       *  or is a superclass or superinterface of, the class or interface represented by the specified Class parameter.
+       */
       return type != null && parent.isAssignableFrom(type);
     }
 
@@ -111,6 +116,9 @@ public class ResolverUtil<T> {
       this.annotation = annotation;
     }
 
+    /**
+     * 传入的参数Class是否使用了当前的注解进行修饰
+     */
     /** Returns true if the type is annotated with the class provided to the constructor. */
     @Override
     public boolean matches(Class<?> type) {
@@ -205,6 +213,7 @@ public class ResolverUtil<T> {
   }
 
   /**
+   * 扫描指定的包，保留符合指定条件的Class对象到成员变量private Set<Class<? extends T>> matches中
    * Scans for classes starting at the package provided and descending into subpackages.
    * Each class is offered up to the Test as it is discovered, and if the Test returns
    * true the class is retained.  Accumulated classes can be fetched by calling

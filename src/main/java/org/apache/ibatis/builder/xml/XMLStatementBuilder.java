@@ -34,6 +34,7 @@ import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * 用于解析sql映射文件中的sql节点
  * @author Clinton Begin
  */
 public class XMLStatementBuilder extends BaseBuilder {
@@ -53,6 +54,10 @@ public class XMLStatementBuilder extends BaseBuilder {
     this.requiredDatabaseId = databaseId;
   }
 
+  /**
+   * 调用了scripting包中的XMLScriptBuilder完成整个的sql语句解析
+   * （其实是间接通过调用scripting包中的LanguageDriver类调用的
+   */
   public void parseStatementNode() {
     String id = context.getStringAttribute("id");
     String databaseId = context.getStringAttribute("databaseId");

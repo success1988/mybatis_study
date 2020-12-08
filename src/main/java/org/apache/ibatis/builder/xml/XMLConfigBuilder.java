@@ -47,6 +47,7 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.JdbcType;
 
 /**
+ * 用于解析mybatis的全局配置文件 mybatis-config.xml
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */

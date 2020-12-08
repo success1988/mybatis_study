@@ -32,8 +32,20 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
 /**
+ * 【池化技术】的示例——MyBatis自己实现的数据库连接池
  * This is a simple, synchronous, thread-safe database connection pool.
- *
+ *数据库连接池在初始化时， 般会创建 定数量的数据库连接并添加到连接池中备用。当
+ * 程序需要使用数据库连接时， 从池中请求连接；当程序不再使用该连接时，会将其返回到池中
+ * 缓存，等待下次使用，而不是直接关闭。当然，数据库连接池会控制连接总数的上限以及空闲
+ * 连接数的上限 ，如果连接池创建的总连接数己达到上限，且都己被占用，则后续请求连接的线
+ * 程会进入阻塞队列等待，直到有钱程释放出可用的连接 如果连接池中空闲连接数较多，达到
+ * 其上限， 则后续返回的空闲连接不会放入池中，而是直接关闭，这样可以减少系统维护多余数
+ * 据库连接的开销。
+ * 如果将总连接数的上限设置得过大，可能因连接数过多而导致数据库僵死，系统整体性能
+ * 下降；如果总连接数上限过小，则无法完全发挥数据库的性能，浪费数据库资源。如果将空闲
+ * 连接的上限设置得过大，则会浪费系统资源来维护这些空闲连接：如果空闲连接上限过小，当
+ * 出现瞬间的峰值请求时，系统的快速响应能力就比较弱 。所以在设置数据库连接池的这两个值
+ * 时，需要进行性能测试、权衡以及一些经验。
  * @author Clinton Begin
  */
 public class PooledDataSource implements DataSource {
@@ -45,8 +57,8 @@ public class PooledDataSource implements DataSource {
   private final UnpooledDataSource dataSource;
 
   // OPTIONAL CONFIGURATION FIELDS
-  protected int poolMaximumActiveConnections = 10;
-  protected int poolMaximumIdleConnections = 5;
+  protected int poolMaximumActiveConnections = 10;//最大连接数
+  protected int poolMaximumIdleConnections = 5;//最大闲置的连接数
   protected int poolMaximumCheckoutTime = 20000;
   protected int poolTimeToWait = 20000;
   protected int poolMaximumLocalBadConnectionTolerance = 3;

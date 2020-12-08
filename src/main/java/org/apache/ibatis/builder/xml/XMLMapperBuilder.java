@@ -49,6 +49,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
+ * 用于解析sql映射文件
  * @author Clinton Begin
  * @author Kazuki Shimizu
  */

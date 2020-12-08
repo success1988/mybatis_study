@@ -14,6 +14,10 @@
  *    limitations under the License.
  */
 /**
+ * 这两级缓存都是依赖于基础支持层中的缓存模块实现的。
+ * 这里需要读者注意的是， MyBatis 中自带的这两级缓存与 MyBatis
+ * 及整个应用是运行在同一个JVM中的，共享同一块堆内存。
+ * 如果这两级缓存中的数据量较大， 则可能影响系统中其他功能的运行，所以当需要缓存大量数据时 ，优先考虑使用 Redis Memcache等缓存产品
  * Base package for caching stuff
  */
 package org.apache.ibatis.cache;

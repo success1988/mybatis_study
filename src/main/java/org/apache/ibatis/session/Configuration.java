@@ -96,6 +96,8 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * Configuration存储着MyBatis所有的配置信息（全局配置信息+sql映射信息）
+ * Configuration本身是一个"大杂烩",内部维护着各种各样的对象实例
  * @author Clinton Begin
  */
 public class Configuration {

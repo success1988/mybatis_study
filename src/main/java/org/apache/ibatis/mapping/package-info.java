@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 /**
+ * 映射包，多用来存储解析器解析结果的
  * Base package for mapping.
  */
 package org.apache.ibatis.mapping;

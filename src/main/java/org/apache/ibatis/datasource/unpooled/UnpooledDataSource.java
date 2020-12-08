@@ -52,6 +52,12 @@ public class UnpooledDataSource implements DataSource {
   private Integer defaultNetworkTimeout;
 
   static {
+    /**
+     * 这里之所以可以获取到驱动，是因为驱动管理器中存储的有驱动列表 private final static CopyOnWriteArrayList<DriverInfo> registeredDrivers
+     * 那么这个驱动列表中的数据是怎么来的呢？ 是通过registerDriver方法来注册进去的
+     * 以Class.forName("com.mysql.jdbc.Driver")为例，com.mysql.jdbc.Driver的静态代码块中就调用了DriverManager的registerDriver方法
+     * @see java.sql.DriverManager#registerDriver
+     */
     Enumeration<Driver> drivers = DriverManager.getDrivers();
     while (drivers.hasMoreElements()) {
       Driver driver = drivers.nextElement();
@@ -216,6 +222,16 @@ public class UnpooledDataSource implements DataSource {
     return doGetConnection(props);
   }
 
+  /**
+   * 在获取数据库连接时, 传统代码如下
+   * Connection conn = DriverManager.getConnection(
+   * 				   "jdbc:mysql://127.0.0.1:3306/test?useSSL=true",
+   * 				   "root", "123456");
+   * 
+   * @param properties
+   * @return
+   * @throws SQLException
+   */
   private Connection doGetConnection(Properties properties) throws SQLException {
     initializeDriver();
     Connection connection = DriverManager.getConnection(url, properties);
