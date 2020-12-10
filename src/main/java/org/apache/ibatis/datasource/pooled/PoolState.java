@@ -33,6 +33,7 @@ public class PoolState {
    * 活动的数据库连接
    */
   protected final List<PooledConnection> activeConnections = new ArrayList<>();
+  //以下成员变量用于统计
   protected long requestCount = 0;
   protected long accumulatedRequestTime = 0;
   protected long accumulatedCheckoutTime = 0;

@@ -22,6 +22,7 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
 /**
+ * 缓存的实现类，扮演装饰器模式中的ConcreteComponen角色
  * @author Clinton Begin
  */
 public class PerpetualCache implements Cache {

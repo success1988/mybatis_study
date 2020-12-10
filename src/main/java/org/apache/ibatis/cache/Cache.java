@@ -18,6 +18,8 @@ package org.apache.ibatis.cache;
 import java.util.concurrent.locks.ReadWriteLock;
 
 /**
+ * 装饰器模式能够帮助我们解决上述问题，装饰器可以动态地为对象添加功能，
+ * 它是基于组合的方式实现该功能的
  * SPI for cache providers.
  * <p>
  * One instance of cache will be created for each namespace.

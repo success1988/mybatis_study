@@ -52,6 +52,7 @@ public class PooledDataSource implements DataSource {
 
   private static final Log log = LogFactory.getLog(PooledDataSource.class);
 
+  //该对象会用于获取连接和释放连接的同步锁
   private final PoolState state = new PoolState(this);
 
   private final UnpooledDataSource dataSource;

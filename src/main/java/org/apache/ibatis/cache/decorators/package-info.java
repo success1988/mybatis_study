@@ -14,6 +14,8 @@
  *    limitations under the License.
  */
 /**
+ * cache. decorators 包下提供的装饰器，它们都直接实现了 Cache 接口，扮演 ConcreteDecorator 的角色。
+ * 这些装饰器会在 Perpetual Cache 的基础上提供一些额外的功能，通过多个组合后满足一个特定的需求
  * Contains cache decorators
  */
 package org.apache.ibatis.cache.decorators;

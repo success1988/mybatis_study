@@ -26,6 +26,7 @@ import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionException;
 
 /**
+ * JdbcTransaction commit（） 方法和 rollback（）方法都会调用 Connection 对应方法实现的。
  * {@link Transaction} that makes use of the JDBC commit and rollback facilities directly.
  * It relies on the connection retrieved from the dataSource to manage the scope of the transaction.
  * Delays connection retrieval until getConnection() is called.
@@ -44,6 +45,13 @@ public class JdbcTransaction implements Transaction {
   protected TransactionIsolationLevel level;
   protected boolean autoCommit;
 
+  /**
+   * TODO: 疑问——如果是用这个构造方法创建JdbcTransaction对象，那么如何调用commit和rollback方法呢？
+   *  答案在getConnection方法中，在调用getConnection()时会调用dataSource的getConnection()方法先获取到connection
+   * @param ds
+   * @param desiredLevel
+   * @param desiredAutoCommit
+   */
   public JdbcTransaction(DataSource ds, TransactionIsolationLevel desiredLevel, boolean desiredAutoCommit) {
     dataSource = ds;
     level = desiredLevel;
