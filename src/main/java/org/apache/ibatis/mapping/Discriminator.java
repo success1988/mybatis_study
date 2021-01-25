@@ -21,6 +21,31 @@ import java.util.Map;
 import org.apache.ibatis.session.Configuration;
 
 /**
+ * 鉴别器，相当于java中的switch case
+ * 用例如下：
+ * <resultMap id="vehicleResult" type="Vehicle">
+ *   <id property="id" column="id" />
+ *   <result property="vin" column="vin"/>
+ *   <result property="year" column="year"/>
+ *   <result property="make" column="make"/>
+ *   <result property="model" column="model"/>
+ *   <result property="color" column="color"/>
+ *   <discriminator javaType="int" column="vehicle_type">
+ *     <case value="1" resultType="carResult">
+ *       <result property="doorCount" column="door_count" />
+ *     </case>
+ *     <case value="2" resultType="truckResult">
+ *       <result property="boxSize" column="box_size" />
+ *       <result property="extendedCab" column="extended_cab" />
+ *     </case>
+ *     <case value="3" resultType="vanResult">
+ *       <result property="powerSlidingDoor" column="power_sliding_door" />
+ *     </case>
+ *     <case value="4" resultType="suvResult">
+ *       <result property="allWheelDrive" column="all_wheel_drive" />
+ *     </case>
+ *   </discriminator>
+ * </resultMap>
  * @author Clinton Begin
  */
 public class Discriminator {

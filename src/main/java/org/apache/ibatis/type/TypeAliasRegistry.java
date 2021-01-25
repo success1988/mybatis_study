@@ -34,6 +34,7 @@ import org.apache.ibatis.io.Resources;
 
 /**
  * 类型别名注册器，维护的是别名与Class之间的关系
+ * 同时兼容完整类路径与Class之间的关系
  * @author Clinton Begin
  */
 public class TypeAliasRegistry {

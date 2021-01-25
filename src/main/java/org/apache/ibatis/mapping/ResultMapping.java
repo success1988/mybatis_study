@@ -30,20 +30,147 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  */
 public class ResultMapping {
 
+  /**
+   * Configuration对象
+   */
   private Configuration configuration;
+  /**
+   * 对应节点的 property 属性，表示的是与该列进行映射的属性
+   */
   private String property;
+  /**
+   * 对应节点 column 属性，表示的是从数据库中得到的列名或是列名的别名
+   */
   private String column;
+  /**
+   * 对应节点的 javaType 属性，表示的是一个 JavaBea口的完全限定名，或一个类型别名
+   */
   private Class<?> javaType;
+  /**
+   * 对应节点的JdbcType 属性，表示的是进行映射的列的 JDBC 类型
+   */
   private JdbcType jdbcType;
+  /**
+   * 对应节点的 typeHandler 属性，表示的是类型处理器，它会覆盖默认的类型处理器
+   */
   private TypeHandler<?> typeHandler;
+  /**
+   *对应节点的 resultMap 属性，该属性通过id引用了另一个 <resultMap＞节点定义，它负责将结果集中的一部
+   * 分列映射成其他关联的结果对象 这样我们就可以通过 join 方式进行关联查询，然后直接映射成多个对象，
+   *并同时设置这些对象之间的组合关系
+   *
+   * 用例可以参考:https://www.cnblogs.com/hamhog/p/3959451.html
+   *
+   * public class Course{
+   *     int id;
+   *     String name;
+   * }
+   *
+   * public class Tutor{
+   *     int id;
+   *     String name;
+   *     List<Course> courses;
+   * }
+   *
+   *     <resultMap type="Course" id="courseResult">
+   *         <result column="course_id" property="id" />
+   *         <result column="course_name" property="name" />
+   *     </resultMap>
+   *
+   *     <resultMap type="Tutor" id="tutorResult">
+   *         <id column="tutor_id" property="id" />
+   *         <result column="tutor_name" property="name" />
+   *         <collection property="courses" resultMap="Course" />
+   *     </resultMap>
+   *
+   *<select id="findTutorById" parameterType="int" resultMap="TutorResult">
+   *     SELECT TUTOR_ID, TUTOR_NAME, COURSE_ID, COURSE_NAME FROM TUTOR
+   * </select>
+   *
+   */
   private String nestedResultMapId;
+  /**
+   *对应节点的 select 属性，该属性通过id引用了另一个 select的节点定义，它会把指定的列的值传入
+   *  select 属性指定的 select 语句中作为参数进行查询
+   *  使用 select 属性可能会导致 N+l 问题
+   * 示例：
+   *   <!--
+   * 　　　　collection 为关联关系，是实现一对多的关键
+   * 　　　　1. property 为javabean中容器对应字段名
+   * 　　　　2. ofType 指定集合中元素的对象类型
+   * 　　　　3. select 使用另一个查询封装的结果
+   * 　　　　4. column 为数据库中的列名，与select配合使用
+   *     -->
+   * 　　<collection property="" column="" ofType="" select="Mapper完整类路径.方法id">
+   * 　　　　<!--
+   * 　　　　　　当使用select属性时，无需下面的配置
+   * 　　　　 -->
+   * 　　　　<id property="" column=""/>
+   * 　　　　<result property="" column=""/>
+   * 　　</collection>
+   *
+   * 　　<!--
+   * 　　　　association 为关联关系，是实现一对一的关键
+   * 　　　　1. property 为javabean中容器对应字段名
+   * 　　　　2. javaType 指定关联的类型，当使用select属性时，无需指定关联的类型
+   * 　　　　3. select 使用另一个select查询封装的结果
+   * 　　　　4. column 为数据库中的列名，与select配合使用
+   * 　　 -->
+   * 　　<association property="" column="" javaType="" select="Mapper完整类路径.方法id">
+   * 　　　　<!--
+   * 　　　　　　使用select属性时，无需下面的配置
+   * 　　　　 -->
+   * 　　　　<id property="" column=""/>
+   * 　　　　<result property="" column=""/>
+   * 　　</association>
+   *
+   *
+   *   如果select属性对应的sql需要多个参数，可以参考：https://www.cnblogs.com/zhengbn/p/3754727.html
+   *   <association property="fncg_PD_QRY_MANAGE" column="{COD_FN_ENT=COD_FN_ENT,COD_PD_LINE=COD_PD_LINE,ID_GRP_PD=ID_GRP_PD,NUM_TARF=NUM_TARF}" select="sql123" />
+   *
+   *      <select id="sql123" parameterType="java.util.Map" resultMap="com.cvicin.products.productManage.fngg.mapper.poRes.FNCG_PD_QRY_MANAGE">
+   *           SELECT * FROM FNCG_PD_QRY_MANAGE WHERE COD_FN_ENT = #{COD_FN_ENT} AND COD_PD_LINE = #{COD_PD_LINE} AND ID_GRP_PD = #{ID_GRP_PD} AND NUM_TARF = #{NUM_TARF}
+   *     </select>
+   */
   private String nestedQueryId;
+  /**
+   *对应节点的 notNullColumn 属性拆分后的结果
+   * 用法不明白,就看官网:https://mybatis.org/mybatis-3/zh/sqlmap-xml.html#Result_Maps
+   *
+   * 默认情况下，在至少一个被映射到属性的列不为空时，子对象才会被创建。 你可以在这个属性上指定非空的列来改变默认行为，指定后，Mybatis 将只在这些列非空时才创建一个子对象。可以使用逗号分隔来指定多个列。默认值：未设置（unset）。
+   */
   private Set<String> notNullColumns;
+  /**
+   * 当一个collection 定义了一个columnPrefix时，其含义是将ANNEX_前缀自动添加到它下面的column中，为其弥上需要的前缀
+   * 示例：
+   * <collection property="brandnoticeannexes" ofType="com.hyphone.brand.entity.BrandNoticeAnnex" columnPrefix="ANNEX_">
+   *     <id property="id" column="ID"/> (对应sql中的列名是ANNEX_ID)
+   *     <result property="annex" column="ANNEX"/> (对应sql中的列名是ANNEX_ANNEX)
+   *     <result property="annexname" column="ANNEXNAME"/> (对应sql中的列名是ANNEX_ANNEXNAME)
+   * </collection>
+   */
   private String columnPrefix;
+  /**
+   *处理后 标志，标志共两个： id constructor
+   * 干嘛用的呢??
+   *
+   */
   private List<ResultFlag> flags;
+  /**
+   *对应 节点的 column属性拆分后生成的结果， composites.size () >0 会使 column为null
+   */
   private List<ResultMapping> composites;
+  /**
+   *对应节点的 resultSet 属性
+   */
   private String resultSet;
+  /**
+   *对应节点的 foreignColumn 属性
+   */
   private String foreignColumn;
+  /**
+   * 是否延迟加载，对应节点 fetchType 属性
+   */
   private boolean lazy;
 
   ResultMapping() {

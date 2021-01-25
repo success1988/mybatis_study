@@ -57,6 +57,9 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private final XPathParser parser;
   private final MapperBuilderAssistant builderAssistant;
+  /**
+   * sql片段
+   */
   private final Map<String, XNode> sqlFragments;
   private final String resource;
 
@@ -106,6 +109,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
+
   private void configurationElement(XNode context) {
     try {
       String namespace = context.getStringAttribute("namespace");
@@ -113,10 +117,15 @@ public class XMLMapperBuilder extends BaseBuilder {
         throw new BuilderException("Mapper's namespace cannot be empty");
       }
       builderAssistant.setCurrentNamespace(namespace);
+      //XMLMapperBuilder.cacheElement（）方法
+      //会为每个 namespace 创建一个对应的 Cache 对象，井在 Configuration.caches 集合中记录
+      //namespace Cache 对象之间的对应关系。如果我们希望多个 names pace 共用同一个二级缓存，
+      //即同一个 Cache 对象，则可以使用＜cache-ref>节点进行配置
       cacheRefElement(context.evalNode("cache-ref"));
       cacheElement(context.evalNode("cache"));
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
       resultMapElements(context.evalNodes("/mapper/resultMap"));
+      //sql片段解析，并将结果运用到CRUD节点的解析中
       sqlElement(context.evalNodes("/mapper/sql"));
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
@@ -254,6 +263,15 @@ public class XMLMapperBuilder extends BaseBuilder {
     return resultMapElement(resultMapNode, Collections.emptyList(), null);
   }
 
+  /**
+   * MyBatis 使用 resultMap＞节点定义了结果集与结
+   * 果对象 OavaBean 对象〉之间的映射规则，
+   * @param resultMapNode
+   * @param additionalResultMappings
+   * @param enclosingType
+   * @return
+   * @throws Exception
+   */
   private ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings, Class<?> enclosingType) throws Exception {
     ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
     String type = resultMapNode.getStringAttribute("type",

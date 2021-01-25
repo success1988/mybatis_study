@@ -96,12 +96,14 @@ public abstract class BaseBuilder {
     }
   }
 
+  //根据类型别名利用反射创建该类型的实例
   protected Object createInstance(String alias) {
     Class<?> clazz = resolveClass(alias);
     if (clazz == null) {
       return null;
     }
     try {
+      //这一行不如写成  return clazz.newInstance();
       return resolveClass(alias).newInstance();
     } catch (Exception e) {
       throw new BuilderException("Error creating instance. Cause: " + e, e);
@@ -145,6 +147,12 @@ public abstract class BaseBuilder {
     return handler;
   }
 
+  /**
+   * 解析别名
+   * @param alias
+   * @param <T>
+   * @return
+   */
   protected <T> Class<? extends T> resolveAlias(String alias) {
     return typeAliasRegistry.resolveAlias(alias);
   }

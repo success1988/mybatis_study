@@ -115,6 +115,11 @@ public class CacheBuilder {
     }
   }
 
+  /**
+   * 为cache添加装饰器
+   * @param cache
+   * @return
+   */
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);

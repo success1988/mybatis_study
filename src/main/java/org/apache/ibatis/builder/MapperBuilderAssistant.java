@@ -109,6 +109,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
     }
     try {
       unresolvedCacheRef = true;
+      //所谓的cache 引用 在代码实现上 真的就是 指向同一个引用
       Cache cache = configuration.getCache(namespace);
       if (cache == null) {
         throw new IncompleteElementException("No cache for namespace '" + namespace + "' could be found.");
