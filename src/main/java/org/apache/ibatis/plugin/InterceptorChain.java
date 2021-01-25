@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 拦截器链，典型的职责链模式
  * @author Clinton Begin
  */
 public class InterceptorChain {
@@ -27,6 +28,8 @@ public class InterceptorChain {
   private final List<Interceptor> interceptors = new ArrayList<>();
 
   public Object pluginAll(Object target) {
+    //如果有多个插件，则会多次调用 plugin 方法，最终生成一个层层嵌套的代理类
+    //而调用代理类的方法时，是由外而内地执行这些代理类的逻辑的，最后会执行原始对象的逻辑
     for (Interceptor interceptor : interceptors) {
       target = interceptor.plugin(target);
     }
