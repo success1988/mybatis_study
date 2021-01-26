@@ -31,6 +31,7 @@ public class InterceptorChain {
     //如果有多个插件，则会多次调用 plugin 方法，最终生成一个层层嵌套的代理类
     //而调用代理类的方法时，是由外而内地执行这些代理类的逻辑的，最后会执行原始对象的逻辑
     for (Interceptor interceptor : interceptors) {
+      //背后是动态代理模式
       target = interceptor.plugin(target);
     }
     return target;
@@ -41,6 +42,7 @@ public class InterceptorChain {
   }
 
   public List<Interceptor> getInterceptors() {
+    //返回不可修改的集合（背后是装饰器模式）
     return Collections.unmodifiableList(interceptors);
   }
 
