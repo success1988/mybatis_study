@@ -25,6 +25,7 @@ public interface Interceptor {
   Object intercept(Invocation invocation) throws Throwable;
 
   default Object plugin(Object target) {
+    //这里返回的是一个目标为target的动态代理对象
     return Plugin.wrap(target, this);
   }
 

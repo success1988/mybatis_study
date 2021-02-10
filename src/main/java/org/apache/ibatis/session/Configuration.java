@@ -604,6 +604,7 @@ public class Configuration {
     executorType = executorType == null ? defaultExecutorType : executorType;
     executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
     Executor executor;
+
     if (ExecutorType.BATCH == executorType) {
       executor = new BatchExecutor(this, transaction);
     } else if (ExecutorType.REUSE == executorType) {
@@ -612,8 +613,10 @@ public class Configuration {
       executor = new SimpleExecutor(this, transaction);
     }
     if (cacheEnabled) {
+      //CachingExecutor的装饰者模式的运用
       executor = new CachingExecutor(executor);
     }
+    //将所有插件逻辑作用于Executor对象
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

@@ -118,14 +118,14 @@ public class XMLMapperBuilder extends BaseBuilder {
       }
       builderAssistant.setCurrentNamespace(namespace);
       //XMLMapperBuilder.cacheElement（）方法
-      //会为每个 namespace 创建一个对应的 Cache 对象，井在 Configuration.caches 集合中记录
+      //会为每个 namespace 创建一个对应的 Cache 对象，并在 Configuration.caches 集合中记录
       //namespace Cache 对象之间的对应关系。如果我们希望多个 names pace 共用同一个二级缓存，
       //即同一个 Cache 对象，则可以使用＜cache-ref>节点进行配置
       cacheRefElement(context.evalNode("cache-ref"));
       cacheElement(context.evalNode("cache"));
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
       resultMapElements(context.evalNodes("/mapper/resultMap"));
-      //sql片段解析，并将结果运用到CRUD节点的解析中
+      //sql片段解析，并将结果运用到CRUD节点的解析中（运用了递归算法）
       sqlElement(context.evalNodes("/mapper/sql"));
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
